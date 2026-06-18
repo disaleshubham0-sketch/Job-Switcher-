@@ -6,7 +6,7 @@
     <title>Job Switcher - AI Powered Professional Network</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
-        /* CSS Variables for Theme */
+        * CSS Variables for Theme */
         :root {
             --primary-color: #0077b5;
             --primary-dark: #005987;
@@ -32,7 +32,7 @@
             padding-bottom: 50px;
         }
 
-        /* Navbar */
+        * Navbar */
         .navbar {
             background-color: #ffffff;
             padding: 12px 20px;
@@ -99,7 +99,7 @@
             background-color: rgba(0, 119, 181, 0.05);
         }
 
-        /* Setup Box */
+        * Setup Box */
         .setup-box {
             max-width: 1200px;
             margin: 15px auto 0;
@@ -143,7 +143,7 @@
             50% { opacity: 0.5; }
         }
 
-        /* Container Layout */
+        * Container Layout */
         .container {
             display: flex;
             max-width: 1200px;
@@ -152,7 +152,7 @@
             gap: 20px;
         }
 
-        /* Sidebar */
+        * Sidebar */
         .sidebar {
             flex: 0 0 280px;
             background: #fff;
@@ -199,12 +199,12 @@
             font-weight: 700;
         }
 
-        /* Main Feed */
+        * Main Feed */
         .feed {
             flex: 1 1 450px;
         }
 
-        /* AI Scanner Box */
+        * AI Scanner Box */
         .ai-scanner {
             background: #ffffff;
             border-radius: 8px;
@@ -322,7 +322,7 @@
             border: 1px solid #bee5eb;
         }
 
-        /* Posts */
+        * Posts */
         .post {
             background: #fff;
             border-radius: 8px;
@@ -379,7 +379,7 @@
             font-weight: 600;
         }
 
-        /* Widgets/Sidebar */
+        * Widgets/Sidebar *
         .widgets {
             flex: 0 0 300px;
             background: #fff;
@@ -474,7 +474,7 @@
             font-size: 13px;
         }
 
-        /* Responsive Design */
+        * Responsive Design */
         @media (max-width: 1024px) {
             .container {
                 flex-direction: column;
@@ -527,7 +527,7 @@
             }
         }
 
-        /* Accessibility */
+        * Accessibility */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -549,7 +549,7 @@
     </style>
 </head>
 <body>
-    <!-- Header Navigation -->
+    <-- Header Navigation -->
     <nav class="navbar" role="navigation" aria-label="Main navigation">
         <a href="#" class="logo" aria-label="Job Switcher Home">Job Switcher</a>
         <div class="search-box">
@@ -566,7 +566,7 @@
         </nav>
     </nav>
 
-    <!-- Setup Box - Backend Status -->
+    <-- Setup Box - Backend Status -->
     <div class="setup-box" id="setupBox" role="region" aria-label="Backend Status">
         <div class="setup-box-content">
             <span>
@@ -576,9 +576,9 @@
         </div>
     </div>
 
-    <!-- Main Content Area -->
+    <-- Main Content Area -->
     <div class="container">
-        <!-- Profile Card -->
+        <-- Profile Card -->
         <aside class="sidebar" aria-label="User Profile">
             <div class="profile-pic" aria-hidden="true">👤</div>
             <h3>Rahul Verma</h3>
@@ -589,9 +589,9 @@
             </div>
         </aside>
 
-        <!-- Social Feed & AI Upload -->
+        <-- Social Feed & AI Upload -->
         <main class="feed">
-            <!-- AI Resume Scanner -->
+            <-- AI Resume Scanner -->
             <div class="ai-scanner" role="region" aria-label="Resume Upload Section">
                 <h3>🤖 Job Switcher AI Smart Match</h3>
                 <p>Upload your Resume (PDF), and AI will automatically detect your skills and match relevant jobs.</p>
@@ -620,7 +620,7 @@
                 <div class="status-msg" id="statusMessage" role="status" aria-live="polite"></div>
             </div>
 
-            <!-- Sample Post -->
+            <-- Sample Post -->
             <article class="post">
                 <div class="post-header">
                     <div class="user-avatar" aria-hidden="true"></div>
@@ -634,13 +634,13 @@
             </article>
         </main>
 
-        <!-- Job Recommendation Widget -->
+        <-- Job Recommendation Widget -->
         <section class="widgets" aria-label="AI Recommended Jobs">
             <h3>🎯 AI Recommended Jobs</h3>
             <div class="skills-text" id="aiSkillsText">Upload your resume to see detected skills...</div>
 
             <div class="job-list" id="jobListArea">
-                <!-- Placeholder jobs -->
+                <-- Placeholder jobs -->
                 <div class="job-item">
                     <strong>Python Developer</strong>
                     <p class="company">DataTech Solutions</p>
@@ -654,14 +654,14 @@
     </div>
 
     <script>
-        // ==================== CONFIG ====================
+        / ==================== CONFIG ====================
         const CONFIG = {
             BACKEND_URL: 'http://localhost:5000',
             PDF_TEXT_LIMIT: 4000,
             PDF_WORKER: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'
         };
 
-        // ==================== INITIALIZATION ====================
+        / ==================== INITIALIZATION ====================
         pdfjsLib.GlobalWorkerOptions.workerSrc = CONFIG.PDF_WORKER;
 
         const elements = {
@@ -676,7 +676,7 @@
             setupText: document.getElementById('setupText')
         };
 
-        // ==================== BACKEND CONNECTION CHECK ====================
+        / ==================== BACKEND CONNECTION CHECK ====================
         async function checkBackendConnection() {
             try {
                 const response = await fetch(`${CONFIG.BACKEND_URL}/api/health`);
@@ -709,7 +709,7 @@
             }
         }
 
-        // ==================== FILE INPUT HANDLING ====================
+        / ==================== FILE INPUT HANDLING ====================
         const fileInputLabel = document.querySelector('.file-input-label');
 
         elements.resumeFile.addEventListener('change', (e) => {
@@ -729,7 +729,7 @@
 
         fileInputLabel.addEventListener('click', () => elements.resumeFile.click());
 
-        // ==================== UTILITY FUNCTIONS ====================
+        / ==================== UTILITY FUNCTIONS ====================
         function showStatus(message, type = 'info') {
             elements.statusMsg.textContent = message;
             elements.statusMsg.className = `status-msg ${type}`;
@@ -750,7 +750,7 @@
             }[char]));
         }
 
-        // ==================== PDF EXTRACTION ====================
+        / ==================== PDF EXTRACTION ====================
         async function extractTextFromPDF(file) {
             try {
                 const arrayBuffer = await file.arrayBuffer();
@@ -777,7 +777,7 @@
             }
         }
 
-        // ==================== BACKEND API CALLS ====================
+        / ==================== BACKEND API CALLS ====================
         async function callBackendAPI(endpoint, resumeText) {
             try {
                 const response = await fetch(`${CONFIG.BACKEND_URL}${endpoint}`, {
@@ -799,11 +799,11 @@
             }
         }
 
-        // ==================== MAIN PROCESS FUNCTION ====================
+        / ==================== MAIN PROCESS FUNCTION ====================
         async function processResumeWithAI() {
             clearStatus();
 
-            // Validation
+            / Validation
             const isBackendConnected = await checkBackendConnection();
             if (!isBackendConnected) {
                 showStatus("❌ Backend server is not running. Please start the server.", 'error');
@@ -822,11 +822,11 @@
                 return;
             }
 
-            // Disable button during processing
+            / Disable button during processing
             elements.scanBtn.disabled = true;
 
             try {
-                // Step 1: Extract text from PDF
+                / Step 1: Extract text from PDF
                 showStatus("📄 Extracting text from PDF...⏳", 'info');
                 const resumeText = await extractTextFromPDF(file);
 
@@ -835,7 +835,7 @@
                     return;
                 }
 
-                // Step 2: Send to backend for processing
+                / Step 2: Send to backend for processing
                 showStatus("🤖 Sending resume to backend for AI analysis...✨", 'info');
                 const result = await callBackendAPI('/api/process-resume', resumeText);
 
@@ -847,11 +847,11 @@
                 const allSkills = result.skills || [];
                 const matchedJobs = result.matchedJobs || [];
 
-                // Step 3: Update UI
+                / Step 3: Update UI
                 showStatus(`✅ Success! Found ${matchedJobs.length} matching jobs for your profile!`, 'success');
                 elements.aiSkillsText.innerHTML = `<strong>Detected Skills:</strong> ${sanitizeText(allSkills.join(', '))}`;
 
-                // Render job list
+                / Render job list
                 renderJobList(matchedJobs);
 
             } catch (error) {
@@ -862,7 +862,7 @@
             }
         }
 
-        // ==================== UI RENDERING ====================
+        / ==================== UI RENDERING ====================
         function renderJobList(matchedJobs) {
             elements.jobListArea.innerHTML = '';
 
@@ -889,26 +889,26 @@
             });
         }
 
-        // ==================== EVENT LISTENERS ====================
+        / ==================== EVENT LISTENERS ====================
         elements.scanBtn.addEventListener('click', processResumeWithAI);
 
-        // Enter key support
+        / Enter key support
         elements.resumeFile.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') processResumeWithAI();
         });
 
-        // Prevent multiple API calls with keyboard events
+        / Prevent multiple API calls with keyboard events
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 'Enter' && !elements.scanBtn.disabled) {
                 processResumeWithAI();
             }
         });
 
-        // ==================== STARTUP ====================
-        // Check backend connection on page load
+        / ==================== STARTUP ====================
+        / Check backend connection on page load
         window.addEventListener('load', () => {
             checkBackendConnection();
-            // Recheck every 30 seconds
+            / Recheck every 30 seconds
             setInterval(checkBackendConnection, 30000);
         });
     </script>
