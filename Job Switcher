@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Switcher - AI Powered</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f3f2ef; padding: 20px; }
+        .ai-box { background: white; max-width: 600px; margin: 30px auto; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid #0077b5; }
+        h2 { color: #0077b5; margin-bottom: 15px; font-size: 22px; display: flex; align-items: center; gap: 8px; }
+        select, button { width: 100%; padding: 12px; margin-top: 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 16px; }
+        button { background: #0077b5; color: white; font-weight: bold; border: none; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #005987; }
+        .results { margin-top: 20px; }
+        .job-card { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 5px solid #28a745; }
+        .job-title { font-weight: bold; color: #333; }
+        .job-company { color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="ai-box">
+    <h2>🤖 Job Switcher AI Assistant</h2>
+    <p>Apna profession chunein, hamara AI aapke liye best match dhoodh dega:</p>
+    
+    <!-- User Profession Input -->
+    <select id="userProfession">
+        <option value="">-- Apna Profession Chunein --</option>
+        <option value="developer">Software Developer / Programmer</option>
+        <option value="designer">UI/UX Graphic Designer</option>
+        <option value="manager">Product / Project Manager</option>
+    </select>
+    
+    <button onclick="findJobsWithAI()">Find My Perfect Match ✨</button>
+
+    <!-- AI Results Display -->
+    <div class="results" id="aiResults"></div>
+</div>
+
+<script>
+// Mock Job Database (Website par maujood jobs ka data)
+const jobDatabase = [
+    { title: "Senior React Developer", company: "Google India", category: "developer", salary: "₹18 LPA" },
+    { title: "Backend Node.js Engineer", company: "Zomato", category: "developer", salary: "₹15 LPA" },
+    { title: "Lead UI/UX Designer", company: "Paytm", category: "designer", salary: "₹12 LPA" },
+    { title: "Graphic & Brand Designer", company: "Canva Studio", category: "designer", salary: "₹6 LPA" },
+    { title: "Technical Product Manager", company: "Microsoft", category: "manager", salary: "₹25 LPA" },
+    { title: "Agile Project Manager", company: "TCS", category: "manager", salary: "₹10 LPA" }
+];
+
+// AI Matching Function
+function findJobsWithAI() {
+    const selectedProfession = document.getElementById("userProfession").value;
+    const resultsDiv = document.getElementById("aiResults");
+    
+    // Clear previous results
+    resultsDiv.innerHTML = "";
+
+    if (!selectedProfession) {
+        resultsDiv.innerHTML = "<p style='color:red;'>Kripya pehle apna profession select karein!</p>";
+        return;
+    }
+
+    resultsDiv.innerHTML = "<p style='color:#666;'>AI aapki profile scan kar raha hai... ⏳</p>";
+
+    // Simulate AI Processing Delay (1 Second)
+    setTimeout(() => {
+        // AI Logic: User Profession ke base par jobs filter karna
+        const matchedJobs = jobDatabase.filter(job => job.category === selectedProfession);
+        
+        resultsDiv.innerHTML = `<h3 style='margin-bottom:10px;'>🎯 AI Matched ${matchedJobs.length} Jobs For You:</h3>`;
+        
+        matchedJobs.forEach(job => {
+            resultsDiv.innerHTML += `
+                <div class="job-card">
+                    <div class="job-title">${job.title}</div>
+                    <div class="job-company">${job.company} | Package: ${job.salary}</div>
+                    <button style="width:auto; padding:5px 10px; font-size:12px; margin-top:8px; background:#28a745;">Apply Now</button>
+                </div>
+            `;
+        });
+    }, 1000);
+}
+</script>
+
+</body>
+</html>
