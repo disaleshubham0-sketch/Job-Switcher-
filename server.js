@@ -1,7 +1,7 @@
-// ============================================
-// Job Switcher - Backend Server
-// Secure API key handling & OpenAI integration
-// ============================================
+/ ============================================
+/ Job Switcher - Backend Server
+/ Secure API key handling & OpenAI integration
+/ ============================================
 
 require('dotenv').config();
 const express = require('express');
@@ -12,14 +12,16 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ============================================
-// MIDDLEWARE
-// ============================================
+/ ============================================
+/ MIDDLEWARE
+/============================================
 
-// Rate limiting
+/ Rate limiting
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    windowMs: 15 * 60 * 1000, 
+    / 15 minutes
+    max: 100, 
+    / limit each IP to 100 requests per windowMs
     message: 'Too many requests from this IP, please try again later.'
 });
 
@@ -27,15 +29,15 @@ app.use(limiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static('public'));
 
-// CORS configuration
+/ CORS configuration
 app.use(cors({
     origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     credentials: true
 }));
 
-// ============================================
-// CONFIGURATION
-// ============================================
+/ ============================================
+/ CONFIGURATION
+/ ============================================
 
 const CONFIG = {
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
@@ -45,15 +47,15 @@ const CONFIG = {
     MAX_RESUME_LENGTH: 4000
 };
 
-// Validate API key is configured
+/ Validate API key is configured
 if (!CONFIG.OPENAI_API_KEY) {
     console.error('ERROR: OPENAI_API_KEY is not configured in environment variables');
     process.exit(1);
 }
 
-// ============================================
-// UTILITIES
-// ============================================
+/ ============================================
+/ UTILITIES
+/ ============================================
 
 function sanitizeInput(input) {
     if (typeof input !== 'string') return '';
@@ -70,11 +72,11 @@ function validateInput(text, maxLength = CONFIG.MAX_RESUME_LENGTH) {
     return true;
 }
 
-// ============================================
-// ROUTES
-// ============================================
+/ ============================================
+/ ROUTES
+/ ============================================
 
-/**
+**
  * Health check endpoint
  */
 app.get('/api/health', (req, res) => {
@@ -85,7 +87,7 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-/**
+**
  * Extract skills from resume text using OpenAI
  * POST /api/extract-skills
  * Body: { resumeText: string }
@@ -94,11 +96,11 @@ app.post('/api/extract-skills', async (req, res) => {
     try {
         const { resumeText } = req.body;
 
-        // Validate input
+        / Validate input
         validateInput(resumeText);
         const sanitizedText = sanitizeInput(resumeText);
 
-        // Call OpenAI API
+        / Call OpenAI API
         const response = await axios.post(
             'https://api.openai.com/v1/chat/completions',
             {
@@ -140,7 +142,7 @@ app.post('/api/extract-skills', async (req, res) => {
     } catch (error) {
         console.error('Error in /api/extract-skills:', error.message);
 
-        // Handle OpenAI API errors
+        / Handle OpenAI API errors
         if (error.response?.status === 401) {
             return res.status(401).json({
                 success: false,
@@ -169,7 +171,7 @@ app.post('/api/extract-skills', async (req, res) => {
     }
 });
 
-/**
+**
  * Match jobs based on skills
  * POST /api/match-jobs
  * Body: { skills: string[] }
@@ -185,7 +187,7 @@ app.post('/api/match-jobs', (req, res) => {
             });
         }
 
-        // Jobs database (in production, this would come from a database)
+        / Jobs database (in production, this would come from a database)
         const JOBS_DATABASE = [
             {
                 id: 1,
@@ -243,7 +245,7 @@ app.post('/api/match-jobs', (req, res) => {
             }
         ];
 
-        // Match jobs with skills
+        / Match jobs with skills
         const matchedJobs = JOBS_DATABASE.map(job => {
             const matchedSkills = job.skills.filter(skill =>
                 skills.some(s => s.toLowerCase() === skill.toLowerCase())
@@ -277,7 +279,7 @@ app.post('/api/match-jobs', (req, res) => {
     }
 });
 
-/**
+**
  * Process resume end-to-end
  * POST /api/process-resume
  * Body: { resumeText: string }
@@ -286,10 +288,10 @@ app.post('/api/process-resume', async (req, res) => {
     try {
         const { resumeText } = req.body;
 
-        // Validate input
+        / Validate input
         validateInput(resumeText);
 
-        // Step 1: Extract skills using OpenAI
+        / Step 1: Extract skills using OpenAI
         const sanitizedText = sanitizeInput(resumeText);
 
         const openaiResponse = await axios.post(
@@ -330,7 +332,7 @@ app.post('/api/process-resume', async (req, res) => {
             });
         }
 
-        // Step 2: Match jobs (reuse database from /api/match-jobs)
+        / Step 2: Match jobs (reuse database from /api/match-jobs)
         const JOBS_DATABASE = [
             {
                 id: 1,
@@ -435,11 +437,11 @@ app.post('/api/process-resume', async (req, res) => {
     }
 });
 
-// ============================================
-// ERROR HANDLING
-// ============================================
+/ ============================================
+/ ERROR HANDLING
+/ ============================================
 
-// 404 handler
+/ 404 handler
 app.use((req, res) => {
     res.status(404).json({
         success: false,
@@ -448,7 +450,7 @@ app.use((req, res) => {
     });
 });
 
-// Global error handler
+/ Global error handler
 app.use((err, req, res, next) => {
     console.error('Unhandled error:', err);
     res.status(500).json({
@@ -457,9 +459,9 @@ app.use((err, req, res, next) => {
     });
 });
 
-// ============================================
-// SERVER START
-// ============================================
+/ ============================================
+/ SERVER START
+/ ============================================
 
 app.listen(PORT, () => {
     console.log(`✅ Job Switcher API running on http://localhost:${PORT}`);
