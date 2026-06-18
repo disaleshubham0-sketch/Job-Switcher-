@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Switcher - AI Powered Professional Network</title>
+    <!-- Working PDF Text Extraction Library Scripts -->
+    <script src="https://cloudflare.com"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f3f2ef; color: #333; padding-bottom: 50px; }
+        
+        /* Navbar */
+        .navbar { background-color: #ffffff; padding: 10px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 24px; font-weight: bold; color: #0077b5; text-decoration: none; }
+        .search-box input { padding: 8px 15px; width: 300px; border: 1px solid #dee2e6; border-radius: 4px; background-color: #edf3f8; outline: none; }
+        .nav-links a { margin-left: 20px; text-decoration: none; color: #666; font-weight: 600; }
+        .nav-links a:hover { color: #0077b5; }
+
+        /* Setup Box for API Key */
+        .setup-box { max-width: 1200px; margin: 20px auto 0; padding: 15px 20px; background: #ffeeba; border: 1px solid #ffe8a1; border-radius: 8px; font-size: 14px; display: flex; gap: 10px; align-items: center; }
+        .setup-box input { padding: 6px 10px; width: 300px; border: 1px solid #ccc; border-radius: 4px; }
+
+        /* Main Container */
+        .container { display: flex; max-width: 1200px; margin: 25px auto; padding: 0 20px; gap: 20px; }
+        
+        /* Left Sidebar (Profile) */
+        .sidebar { flex: 1; background: #fff; border-radius: 8px; border: 1px solid #e0e0e0; padding: 20px; text-align: center; height: fit-content; }
+        .profile-pic { width: 80px; height: 80px; border-radius: 50%; background: #ccc; margin: 0 auto 10px; }
+        
+        /* Main Feed */
+        .feed { flex: 2; }
+        
+        /* AI Resume Scanner Box */
+        .ai-scanner { background: #ffffff; border-radius: 8px; border: 2px dashed #0077b5; padding: 20px; margin-bottom: 20px; text-align: center; }
+        .ai-scanner h3 { color: #0077b5; margin-bottom: 5px; }
+        .upload-btn { background: #0077b5; color: white; border: none; padding: 8px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .upload-btn:hover { background: #005987; }
+        .status-msg { margin-top: 10px; font-size: 14px; font-weight: bold; color: #555; display: none; }
+
+        /* Posts */
+        .post { background: #fff; border-radius: 8px; border: 1px solid #e0e0e0; padding: 20px; margin-bottom: 15px; }
+        .post-header { display: flex; align-items: center; margin-bottom: 10px; }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #777; margin-right: 10px; }
+        .job-badge { background-color: #e7f3ff; color: #0077b5; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; display: inline-block; margin-top: 10px; }
+
+        /* Right Sidebar (AI Job Matches) */
+        .widgets { flex: 1; background: #fff; border-radius: 8px; border: 1px solid #e0e0e0; padding: 20px; height: fit-content; }
+        .job-list { margin-top: 15px; }
+        .job-item { padding: 12px; border-bottom: 1px solid #eee; background: #f8f9fa; border-radius: 6px; margin-bottom: 10px; border-left: 4px solid #28a745; }
+        .apply-btn { background: #28a745; color: white; border: none; padding: 5px 12px; border-radius: 15px; cursor: pointer; font-size: 12px; margin-top: 8px; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <a href="#" class="logo">Job Switcher</a>
+        <div class="search-box">
+            <input type="text" placeholder="Search Jobs, Companies, People...">
+        </div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Network</a>
+            <a href="#">Jobs</a>
+        </div>
+    </nav>
+
+    <!-- Top Alert Box to Add OpenAI Key -->
+    <div class="setup-box">
+        <span>🔑 <strong>AI Setup:</strong> Apni OpenAI API Key yahan dalein taaki AI kaam kar sake:</span>
+        <input type="password" id="apiKeyInput" placeholder="sk-proj-...">
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="container">
+        
+        <!-- Profile Card -->
+        <aside class="sidebar">
+            <div class="profile-pic"></div>
+            <h3>Rahul Verma</h3>
+            <p style="color: #666; font-size: 14px;">Looking for New Opportunities</p>
+            <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+            <p style="font-size: 12px; color: #666; text-align: left;">Profile Views: <span style="color:#0077b5; font-weight:bold;">142</span></p>
+        </aside>
+
+        <!-- Social Feed & AI Upload -->
+        <main class="feed">
+            
+            <!-- AI Resume Box -->
+            <div class="ai-scanner">
+                <h3>🤖 Job Switcher AI Smart Match</h3>
+                <p style="font-size: 14px; color: #555;">Apna Resume (PDF) upload karein, AI automatic aapki skills dhoodh kar jobs match karega.</p>
+                <input type="file" id="resumeFile" accept=".pdf" style="margin-top: 15px;">
+                <br>
+                <button class="upload-btn" onclick="processResumeWithAI()">AI Scan Shuru Karein ✨</button>
+                <div class="status-msg" id="statusMessage"></div>
+            </div>
+
+            <!-- Default Post Feed -->
+            <div class="post">
+                <div class="post-header">
+                    <div class="user-avatar"></div>
+                    <div>
+                        <strong>Amit Sharma</strong>
+                        <p style="font-size: 12px; color: #666;">HR Manager at TechCorp</p>
+                    </div>
+                </div>
+                <p>We are urgently looking for a Senior React Developer who wants to switch immediately. Work from home option available!</p>
+                <span class="job-badge">Full-Time Job</span>
+            </div>
+        </main>
+
+        <!-- Job Recommendation Widget (AI Output) -->
+        <section class="widgets">
+            <h3 style="font-size: 16px; color: #0077b5;">🎯 AI Recommended Jobs</h3>
+            <p id="aiSkillsText" style="font-size: 12px; color: #666; margin-top: 5px; font-style: italic;">Apna resume upload karein...</p>
+            
+            <div class="job-list" id="jobListArea">
+                <!-- Initial Placeholder Jobs -->
+                <div class="job-item" style="border-left-color: #ccc;">
+                    <p><strong>Python Developer</strong></p>
+                    <p style="font-size: 13px; color:#555;">DataTech Solutions</p>
+                </div>
+                <div class="job-item" style="border-left-color: #ccc;">
+                    <p><strong>UI/UX Designer</strong></p>
+                    <p style="font-size: 13px; color:#555;">Creative Studio</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Fixed PDF.js worker setup
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cloudflare.com';
+
+        // Mock Website Jobs Database
+        const jobsDatabase = [
+            { title: "Senior React Developer", company: "Google India", skills: ["react", "javascript", "html", "css"] },
+            { title: "Backend Node.js Engineer", company: "Zomato", skills: ["node", "express", "javascript", "mongodb"] },
+            { title: "Python Data Scientist", company: "Meta", skills: ["python", "machine learning", "sql"] },
+            { title: "UI/UX Graphic Designer", company: "Canva Studio", skills: ["figma", "ui design", "ux", "photoshop"] },
+            { title: "Technical Product Manager", company: "Microsoft", skills: ["agile", "product management", "scrum"] }
+        ];
+
+        // Main Function to Extract Text and Call OpenAI
+        async function processResumeWithAI() {
+            const fileInput = document.getElementById('resumeFile');
+            const apiKey = document.getElementById('apiKeyInput').value;
+            const statusMsg = document.getElementById('statusMessage');
+            const aiSkillsText = document.getElementById('aiSkillsText');
+            const jobListArea = document.getElementById('jobListArea');
+
+            if (!apiKey) {
+                alert("Kripya pehle upar di gayi peli patti (yellow box) me apni OpenAI API Key dalein!");
+                return;
+            }
+            if (fileInput.files.length === 0) {
+                alert("Kripya pehle koi PDF Resume file select karein!");
+                return;
+            }
+
+            statusMsg.style.display = "block";
+            statusMsg.innerText = "📄 PDF me se text nikala ja raha hai...⏳";
+            statusMsg.style.color = "#0077b5";
+
+            try {
+                const file = fileInput.files[0];
+                const arrayBuffer = await file.arrayBuffer();
+                
+                // Fixed: Extract text from PDF using correct PDF.js logic
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                let fullText = "";
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(" ");
+                    fullText += pageText + " ";
+                }
+
+                statusMsg.innerText = "🤖 AI aapka resume padh raha hai...🧠";
+
+                // Fixed: Official Correct OpenAI API URL
+                const response = await fetch("https://openai.com", {
+                    method: "POST",
+                    headers: {
